@@ -1,0 +1,55 @@
+<div class="card text-dark mt-3">
+    <div class="card-header bg-transparent">
+        <h5 class="card-title">Repositorio</h5>
+        <p class="card-text">Listado</p>
+    </div>
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-md-6">
+                <input type="text" class="form-control" [(ngModel)]="textoBusqueda" placeholder="Buscar...">
+            </div>
+            <div class="col-md-6">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="button" class="btn btn-primary btn-sm" [routerLink]="['/repositorio/nuevo']">
+                        <i class="fas fa-plus"></i> Agregar </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-sm table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Grupo</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Fecha actualizado</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let archivo of repositorio | filtro: textoBusqueda | paginate : {
+                        itemsPerPage: tableSize,
+                        currentPage: page,
+                        totalItems: count
+                      };">
+                        <th scope="row"> {{ archivo.TipoNombre }} </th>
+                        <td> {{ archivo.NOMBRE }} </td>
+                        <td> {{ archivo.FECHA_ACTUALIZADO }} </td>
+                        <td> <img [src]="archivo.LINK_ICONO" style="width: 50px;" alt=""> </td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm"
+                                [routerLink]="['/repositorio', archivo.id]">
+                                <i class="fas fa-edit"></i> </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <pagination-controls previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
+            </pagination-controls>
+        </div>
+
+
+    </div>
+</div>

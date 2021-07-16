@@ -1,0 +1,72 @@
+<div class="card text-dark mt-3">
+    <div class="card-header bg-transparent">
+        <h5 class="card-title">Noticias</h5>
+        <p class="card-text">Mantenimiento</p>
+    </div>
+    <div class="card-body">
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="button" class="btn btn-primary btn-sm" [routerLink]="['/noticias']"><i
+                    class="fas fa-long-arrow-alt-left"></i> Regresar</button>
+        </div>
+
+        <form class="mt-1" (ngSubmit)="f.form.valid &&guardar( f )" #f="ngForm">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="form-label">Titulo: *</label>
+                    <div class="input-group mb-4">
+                        <input type="tel" class="form-control" [(ngModel)]="noticia.TITULO" name="desc" required>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <label class="form-label">Cuerpo: *</label>
+                    <div class="input-group mb-3">
+                        <textarea [(ngModel)]="noticia.CUERPO" name="Cnoticia" #Cnoticia="ngModel" placeholder="" type="text" class="form-control" minlength="4" rows="6" required></textarea>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <label class="form-label">Enlace externo:</label>
+                    <div class="input-group mb-4">
+                        <input type="tel" class="form-control" [(ngModel)]="noticia.FUENTE_LINK" name="link">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label">Imagen:</label>
+                    <div class="input-group mb-4">
+                        <input class="form-control" (change)="cargaArchivo($event)" type="file" id="formFile">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">&nbsp;</label>
+                    <div class="input-group mb-4">
+                        <img class="img-center" [src]="noticia.IMAGEN_LINK" style="width: 250px;" alt="">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div *ngIf="noticia.FECHA_CREACION" class="col-md-12">
+                    <label class="form-label">Última actualización: <span class="badge bg-primary">
+                            {{noticia.FECHA_CREACION}} </span></label>
+                </div>
+            </div>
+
+            <hr>
+            <div class="form-group text-center">
+                <button class="btn btn-primary w-50" [disabled]="f.form.invalid" type="submit">
+                    <i class="fas fa-save"></i> Guardar
+                </button>
+                <button class="btn btn-danger w-50" type="button" *ngIf="noticia.id" (click)="eliminarNoticia()">
+                    <i class="fas fa-trash"></i> Eliminar
+                </button>
+            </div>
+
+        </form>
+
+
+    </div>
+</div>
