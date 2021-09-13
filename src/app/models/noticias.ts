@@ -6,4 +6,7 @@ export class Noticia{
     FUENTE?: string;
     FUENTE_LINK?: string;
     FECHA_CREACION?: string;
+    TEXTO_BOTON1?: string;
+    TEXTO_BOTON2?: string;
+    LINK_BOTON2?: string;
 }

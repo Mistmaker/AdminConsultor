@@ -18,7 +18,10 @@ export class NoticiaComponent implements OnInit {
 
   noticia = new Noticia();
   files: FileList | undefined;
-  
+  cargando = false;
+  cargado = false;
+  nombreArchivo: string | undefined;
+
   constructor(private noticiasService: NoticiasService, private repositorioService: RepositorioService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
@@ -39,6 +42,9 @@ export class NoticiaComponent implements OnInit {
     if (form.invalid) {
       return;
     }
+
+    if ((this.noticia.FUENTE_LINK && this.noticia.FUENTE_LINK !== '') && this.noticia.TEXTO_BOTON1 === '') { Swal.fire({ title: 'Advertencia', text: `Agregue una descripción para el enlace`, icon: 'warning', }); return; }
+    if ((this.noticia.LINK_BOTON2 && this.noticia.LINK_BOTON2 !== '') && this.noticia.TEXTO_BOTON2 === '') { Swal.fire({ title: 'Advertencia', text: `Agregue una descripción para el 2do enlace`, icon: 'warning', }); return; }
 
     Swal.fire({ title: 'Espere', text: 'Guardando información', allowOutsideClick: false, icon: 'info', });
     Swal.showLoading();
@@ -61,10 +67,10 @@ export class NoticiaComponent implements OnInit {
 
   }
 
-  eliminarNoticia(){
+  eliminarNoticia() {
     let eliminar = false;
     Swal.fire({
-      title: 'Confirmación',text: 'Desea eliminar esta noticia?',icon: 'warning',showDenyButton: true,confirmButtonText: `Eliminar`,denyButtonText: `No eliminar`,denyButtonColor: '#3085d6',confirmButtonColor: '#d33',
+      title: 'Confirmación', text: 'Desea eliminar esta noticia?', icon: 'warning', showDenyButton: true, confirmButtonText: `Eliminar`, denyButtonText: `No eliminar`, denyButtonColor: '#3085d6', confirmButtonColor: '#d33',
     }).then((result) => {
       if (result.isConfirmed) {
         eliminar = true;
@@ -78,12 +84,12 @@ export class NoticiaComponent implements OnInit {
           Swal.showLoading();
 
           this.noticiasService.deleteNoticia(this.noticia.id!).subscribe(resp => {
-            Swal.fire('Eliminado!','Se eliminó la noticia','success').then(r => {
+            Swal.fire('Eliminado!', 'Se eliminó la noticia', 'success').then(r => {
               this.router.navigateByUrl('noticias');
             });
           }, error => {
             console.log(error);
-            Swal.fire('Error!','Ocurrió un error al eliminar','error'
+            Swal.fire('Error!', 'Ocurrió un error al eliminar', 'error'
             );
           })
         }
@@ -91,25 +97,45 @@ export class NoticiaComponent implements OnInit {
     });
   }
 
-  cargaArchivo(event: any) {
+  cargaArchivo(event: any, tipo = 'img') {
     this.files = event.target.files;
 
-    const currentFile = this.files!.item(0);
-    // console.log(currentFile);
-    this.repositorioService.uploadImg(currentFile!).subscribe((response: any) => {
-      // this.files!.value = '';
-      if (response instanceof HttpResponse) {
-        // this.msg = response.body;
-        // console.log(response.body);
-        if (response.body.resultado === true) {
-          // console.log('cargado con exito')
-          this.noticia.IMAGEN_LINK = `${urlWs}/img/noticias/${currentFile?.name}`;
-          console.log(this.noticia.IMAGEN_LINK);
-        } else {
-          Swal.fire({ title: 'Error', text: 'No se puede cargar el archivo, intente nuevamente', icon: 'error', });
+    if (tipo == 'img') {
+      const currentFile = this.files!.item(0);
+      // console.log(currentFile);
+      this.repositorioService.uploadImg(currentFile!).subscribe((response: any) => {
+        // this.files!.value = '';
+        if (response instanceof HttpResponse) {
+          // this.msg = response.body;
+          // console.log(response.body);
+          if (response.body.resultado === true) {
+            // console.log('cargado con exito')
+            this.noticia.IMAGEN_LINK = `${urlWs}/img/noticias/${currentFile?.name}`;
+            // console.log(this.noticia.IMAGEN_LINK);
+          } else {
+            Swal.fire({ title: 'Error', text: 'No se puede cargar el archivo, intente nuevamente', icon: 'error', });
+          }
         }
-      }
-    });
+      });
+    } else {
+      this.cargado = false;
+      this.cargando = true;
+      const currentFile = this.files!.item(0);
+      this.repositorioService.uploadFileCurso(currentFile!).subscribe((response: any) => {
+        if (response instanceof HttpResponse) {
+          if (response.body.resultado === true) {
+            this.noticia.LINK_BOTON2 = `${urlWs}/documentos/materialcursos/${currentFile?.name}`;
+            this.cargando = false;
+            this.cargado = true;
+            this.nombreArchivo = currentFile?.name;
+            // console.log(this.noticia.LINK_BOTON2);
+          } else {
+            Swal.fire({ title: 'Error', text: 'No se puede cargar el archivo, intente nuevamente', icon: 'error', });
+          }
+        }
+      });
+    }
+
   }
 
 }

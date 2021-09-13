@@ -22,13 +22,35 @@
                 <div class="col-md-12">
                     <label class="form-label">Cuerpo: *</label>
                     <div class="input-group mb-3">
-                        <textarea [(ngModel)]="noticia.CUERPO" name="Cnoticia" #Cnoticia="ngModel" placeholder="" type="text" class="form-control" minlength="4" rows="6" required></textarea>
+                        <textarea [(ngModel)]="noticia.CUERPO" name="Cnoticia" #Cnoticia="ngModel" placeholder=""
+                            type="text" class="form-control" minlength="4" rows="6" required></textarea>
                     </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <label class="form-label">Enlace externo:</label>
                     <div class="input-group mb-4">
-                        <input type="tel" class="form-control" [(ngModel)]="noticia.FUENTE_LINK" name="link">
+                        <input type="text" class="form-control" [(ngModel)]="noticia.FUENTE_LINK" name="link">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Descripción del enlace:</label>
+                    <div class="input-group mb-4">
+                        <input type="text" class="form-control" [(ngModel)]="noticia.TEXTO_BOTON1" name="textbot1">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Archivo:</label>
+                    <input class="form-control" (change)="cargaArchivo($event,'file')" type="file" id="formFile1">
+                    <input type="text" class="form-control form-control-sm" *ngIf="noticia.LINK_BOTON2" [(ngModel)]="noticia.LINK_BOTON2" readonly name="linkbot2">
+                    <div class="d-grid gap-2">
+                        <label *ngIf="cargando" class="btn btn-primary">Cargando...</label>
+                        <label *ngIf="cargado" class="btn btn-success"> {{ nombreArchivo }} Cargado!!!</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Descripción del enlace secundario:</label>
+                    <div class="input-group mb-4">
+                        <input type="text" class="form-control" [(ngModel)]="noticia.TEXTO_BOTON2" name="textbot2">
                     </div>
                 </div>
             </div>

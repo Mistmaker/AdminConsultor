@@ -9,6 +9,10 @@ import { EnlaceComponent } from './components/enlace/enlace.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NoticiasComponent } from './components/noticias/noticias.component';
 import { NoticiaComponent } from './components/noticia/noticia.component';
+import { EvaluacionesComponent } from './components/evaluaciones/evaluaciones.component';
+import { GrupoEvaluacionesComponent } from './components/grupo-evaluaciones/grupo-evaluaciones.component';
+import { GrupoEvaluacionComponent } from './components/grupo-evaluacion/grupo-evaluacion.component';
+import { EvaluacionComponent } from './components/evaluacion/evaluacion.component';
 
 const routes: Routes = [
   { path: 'inicio', component: HomeComponent, canActivate: [ AuthGuard ] },
@@ -18,6 +22,10 @@ const routes: Routes = [
   { path: 'links/:id', component: EnlaceComponent, canActivate: [ AuthGuard ] },
   { path: 'noticias', component: NoticiasComponent, canActivate: [ AuthGuard ] },
   { path: 'noticias/:id', component: NoticiaComponent, canActivate: [ AuthGuard ] },
+  { path: 'grupo-evaluaciones', component: GrupoEvaluacionesComponent, canActivate: [ AuthGuard ] },
+  { path: 'grupo-evaluaciones/:id', component: GrupoEvaluacionComponent, canActivate: [ AuthGuard ] },
+  { path: 'evaluaciones', component: EvaluacionesComponent, canActivate: [ AuthGuard ] },
+  { path: 'evaluaciones/:id', component: EvaluacionComponent, canActivate: [ AuthGuard ] },
   { path: 'login', component: LoginComponent },
   { path: '**', redirectTo: 'inicio', pathMatch: 'full' },
 ];

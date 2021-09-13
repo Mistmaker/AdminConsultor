@@ -1,0 +1,158 @@
+<div class="card text-dark mt-3">
+    <div class="card-header bg-transparent">
+        <h5 class="card-title">Evaluación</h5>
+        <p class="card-text">Mantenimiento</p>
+    </div>
+    <div class="card-body">
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="button" class="btn btn-primary btn-sm" [routerLink]="['/evaluaciones']"><i
+                    class="fas fa-long-arrow-alt-left"></i> Regresar</button>
+        </div>
+
+        <form class="mt-1" (ngSubmit)="f.form.valid &&guardar( f )" #f="ngForm">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="form-label">Grupo:</label>
+                    <select [(ngModel)]="evaluacion.id_padre" name="id_padre" class="form-select" required>
+                        <option *ngFor="let grupo of grupos" [value]="grupo.id_categoria"> {{ grupo.nombre }}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Título:</label>
+                    <div class="input-group mb-4">
+                        <input type="tel" class="form-control" [(ngModel)]="evaluacion.nombre" name="titulo">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Cantidad de preguntas a mostrar:</label>
+                    <div class="input-group mb-3">
+                        <input type="number" class="form-control" [(ngModel)]="evaluacion.cantidad_preguntas"
+                            name="cantidad_preguntas">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inicio banco de preguntas -->
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button class="btn btn-sm btn-primary mt-1" type="button" (click)="agregarPregunta()">
+                    <i class="fas fa-plus"></i> Agregar pregunta
+                </button>
+            </div>
+
+            <div *ngIf="preguntas.length>0">
+
+                <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button class="btn btn-sm btn-primary mt-1" type="button" (click)="agregarPregunta()">
+                        <i class="fas fa-plus"></i> Agregar pregunta
+                    </button>
+                </div> -->
+
+                <div class="row" *ngFor="let pregunta of preguntas;let i = index">
+
+                    <div class="col-md-12">
+                        <label class="form-label"> <b> Pregunta {{ i + 1 }}: </b> </label>
+                        <div class="input-group mb-4">
+                            <input type="text" class="form-control form-control-sm" name="pregunta{{i}}"
+                                [(ngModel)]="pregunta.pregunta" [value]="pregunta.pregunta" required>
+                            <button type="button" class="btn btn-danger btn-sm" (click)="quitarPregunta(pregunta,i)">
+                                <i class="fas fa-times-circle"></i> </button>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive" *ngIf="pregunta.respuestas">
+                        <table class="table table-sm table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Texto Respuesta</th>
+                                    <th scope="col">Correcta?</th>
+                                    <th scope="col"> <button type="button" class="btn btn-primary btn-sm"
+                                            (click)="agregarRespuesta(pregunta)">
+                                            <i class="fas fa-plus-circle"></i> </button>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let respuesta of pregunta.respuestas;let j = index">
+                                    <td scope="row" *ngIf="respuesta.activo">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control-sm"
+                                                name="respuesta{{respuesta.id_respuesta}}{{i}}{{j}}"
+                                                [(ngModel)]="respuesta.respuesta" [value]="respuesta.respuesta"
+                                                required>
+                                        </div>
+                                    </td>
+                                    <td *ngIf="respuesta.activo">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" [(ngModel)]="respuesta.respuesta_valida"
+                                                type="checkbox"
+                                                name="respuesta_valida{{respuesta.id_respuesta}}{{i}}{{j}}">
+                                            <label class="form-check-label"
+                                                for="respuesta_valida{{respuesta.id_respuesta}}{{j}}">
+                                            </label>
+                                        </div>
+                                        <!-- <button class="btn btn-sm btn-success" type="button"
+                                            *ngIf="respuesta.respuesta_valida"
+                                            (click)="respuesta.respuesta_valida = !respuesta.respuesta_valida">
+                                            <i class="fas fa-check-circle"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-danger" type="button"
+                                            *ngIf="!respuesta.respuesta_valida"
+                                            (click)="respuesta.respuesta_valida = !respuesta.respuesta_valida">
+                                            <i class="fas fa-times-circle"></i>
+                                        </button> -->
+                                        <!-- <div class="form-group">
+                                            <input type="text" class="form-control form-control-sm"
+                                                name="respuesta_valida{{respuesta.id_respuesta}}{{j}}" [(ngModel)]="respuesta.respuesta_valida"
+                                                [value]="respuesta.respuesta_valida">
+                                        </div> -->
+                                    </td>
+                                    <td *ngIf="respuesta.activo">
+                                        <button type="button" class="btn btn-danger btn-sm"
+                                            (click)="quitarRespuesta(respuesta,j)">
+                                            <i class="fas fa-minus-circle"></i> </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-md-12">
+                        <label class="form-label"> <b> Comentario: </b> </label>
+                        <div class="input-group mb-4">
+                            <input type="text" class="form-control form-control-sm" name="comentario{{i}}"
+                                [(ngModel)]="pregunta.comentario" [value]="pregunta.comentario">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button class="btn btn-sm btn-primary mt-1" type="button" (click)="agregarPregunta()">
+                        <i class="fas fa-plus"></i> Agregar pregunta
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Fin banco de preguntas -->
+
+            <hr>
+            <div class="form-group text-center">
+                <button class="btn btn-primary w-50" type="submit">
+                    <i class="fas fa-save"></i> Guardar
+                </button>
+                <button class="btn btn-danger w-50" type="button" *ngIf="evaluacion.id_categoria"
+                    (click)="eliminarEvaluacion()">
+                    <i class="fas fa-trash"></i> Eliminar
+                </button>
+            </div>
+
+        </form>
+
+
+    </div>
+</div>

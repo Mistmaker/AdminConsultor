@@ -49,7 +49,7 @@ export class EnlaceComponent implements OnInit {
     Swal.showLoading();
 
     this.enlacesService.setEnlace(this.enlace).subscribe((resp: any) => {
-      console.log(resp);
+      // console.log(resp);
 
       if (resp['err']) {
         Swal.fire({ title: 'Error', text: resp['mensaje'], icon: 'error', });

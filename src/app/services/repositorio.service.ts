@@ -59,6 +59,17 @@ export class RepositorioService {
     return this.http.request(req);
   }
 
+  uploadFileCurso(file: File) {
+    const formdata: FormData = new FormData();
+    formdata.append('file', file);
+    const req = new HttpRequest('POST', `${this.url}/uploadFileCurso.php`, formdata, {
+      reportProgress: true,
+      responseType: 'json'
+    });
+
+    return this.http.request(req);
+  }
+
   deleteArchivo(id: number) {
     return this.http.get(`${this.url}/deleteArchivo.php?id=${id}`);
   }

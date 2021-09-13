@@ -17,6 +17,10 @@ import { EnlacesComponent } from './components/enlaces/enlaces.component';
 import { EnlaceComponent } from './components/enlace/enlace.component';
 import { NoticiasComponent } from './components/noticias/noticias.component';
 import { NoticiaComponent } from './components/noticia/noticia.component';
+import { EvaluacionesComponent } from './components/evaluaciones/evaluaciones.component';
+import { GrupoEvaluacionesComponent } from './components/grupo-evaluaciones/grupo-evaluaciones.component';
+import { GrupoEvaluacionComponent } from './components/grupo-evaluacion/grupo-evaluacion.component';
+import { EvaluacionComponent } from './components/evaluacion/evaluacion.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +34,11 @@ import { NoticiaComponent } from './components/noticia/noticia.component';
     EnlacesComponent,
     EnlaceComponent,
     NoticiasComponent,
-    NoticiaComponent
+    NoticiaComponent,
+    EvaluacionesComponent,
+    GrupoEvaluacionesComponent,
+    GrupoEvaluacionComponent,
+    EvaluacionComponent
   ],
   imports: [
     BrowserModule,

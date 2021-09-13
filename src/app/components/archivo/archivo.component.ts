@@ -62,7 +62,7 @@ export class ArchivoComponent implements OnInit {
   }
 
   guardar(form: NgForm) {
-    console.log(this.archivo);
+    // console.log(this.archivo);
     if (form.invalid) {
       return;
     }
@@ -76,7 +76,7 @@ export class ArchivoComponent implements OnInit {
     Swal.showLoading();
 
     this.repositorioService.setRepositorioArchivo(this.archivo).subscribe((resp: any) => {
-      console.log(resp);
+      // console.log(resp);
 
       if (resp['err']) {
         Swal.fire({ title: 'Error', text: resp['mensaje'], icon: 'error', });
@@ -110,7 +110,7 @@ export class ArchivoComponent implements OnInit {
           Swal.showLoading();
 
           this.repositorioService.deleteArchivo(this.archivo.id!).subscribe(resp => {
-            console.log(resp);
+            // console.log(resp);
             Swal.fire('Eliminado!','Se eliminó el enlace','success').then(r => {
               this.router.navigateByUrl('repositorio');
             });
