@@ -3,6 +3,7 @@ export class Evaluaciones {
     id_padre!: number;
     nombre!: string;
     cantidad_preguntas!: number;
+    metodo_calificacion!: string;
     grupo!: string;
     preguntas!: Preguntas[];
 }
@@ -13,6 +14,8 @@ export class Preguntas {
     pregunta!: string;
     activo!: boolean;
     comentario!: string;
+    link_comentario!: string;
+    texto_link_comentario!: string;
     respuestas!: Respuestas[];
 }
 

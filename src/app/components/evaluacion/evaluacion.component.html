@@ -33,6 +33,13 @@
                             name="cantidad_preguntas">
                     </div>
                 </div>
+                <div class="col-md-4">
+                    <label class="form-label">Método de Calificación:</label>
+                    <select [(ngModel)]="evaluacion.metodo_calificacion" name="metodo_calificacion" class="form-select" required>
+                        <option value="1"> Directo </option>
+                        <option value="2"> Al finalizar </option>
+                    </select>
+                </div>
             </div>
 
             <!-- Inicio banco de preguntas -->
@@ -120,11 +127,25 @@
                         </table>
                     </div>
 
-                    <div class="col-md-12">
+                    <div class="col-md-4">
                         <label class="form-label"> <b> Comentario: </b> </label>
                         <div class="input-group mb-4">
                             <input type="text" class="form-control form-control-sm" name="comentario{{i}}"
                                 [(ngModel)]="pregunta.comentario" [value]="pregunta.comentario">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label"> <b> Link Comentario: </b> </label>
+                        <div class="input-group mb-4">
+                            <input type="text" class="form-control form-control-sm" name="link_comentario{{i}}"
+                                [(ngModel)]="pregunta.link_comentario" [value]="pregunta.link_comentario">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label"> <b> Texto Link Comentario: </b> </label>
+                        <div class="input-group mb-4">
+                            <input type="text" class="form-control form-control-sm" name="texto_link_comentario{{i}}"
+                                [(ngModel)]="pregunta.texto_link_comentario" [value]="pregunta.texto_link_comentario">
                         </div>
                     </div>
 
